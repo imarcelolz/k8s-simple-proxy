@@ -1,0 +1,20 @@
+services:
+  proxy:
+    image: golang:1.16
+    entrypoint: ['go', 'run', '/app/proxy.go']
+    volumes:
+      - ./:/app/
+    ports:
+      - 9090:9090
+
+  server_1:
+    image: hashicorp/http-echo
+    entrypoint: ['./http-echo', '-listen', ':80', '-text', 'server_1']
+
+  server_2:
+    image: hashicorp/http-echo
+    entrypoint: ['./http-echo', '-listen', ':80', '-text', 'server_2']
+
+  server_3:
+    image: hashicorp/http-echo
+    entrypoint: ['./http-echo', '-listen', ':80', '-text', 'server_3']
