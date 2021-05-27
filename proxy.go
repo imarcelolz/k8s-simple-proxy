@@ -53,7 +53,6 @@ func onRequest(res http.ResponseWriter, req *http.Request) {
 	log.Printf("I'll redirect it to: %v", endpoint.String())
 
 	proxyRequest(endpoint, res, req)
-	// res.Write([]byte("Hello"))
 }
 
 func main() {
