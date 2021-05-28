@@ -1,48 +1,52 @@
 package main
 
-import (
-	"context"
+// import (
+// 	"context"
 
-	metav1 "g/pkg/apis/meta/v1"
+// 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+// 	kube "k8s.io/client-go/kubernetes"
+// 	"k8s.io/client-go/rest"
+// )
 
-	kubeRest "k8s.io/client-go/1.5/rest"
-	kube "k8s.io/client-go/kubernetes"
-)
+// type ServiceCallback = func(service string)
 
-type ServiceCallback = func(service string)
+// type Monitor struct {
+// 	services         []string
+// 	namespace        string
+// 	kubeClient       *kube.Clientset
+// 	onServiceAdded   ServiceCallback
+// 	onServiceRemoved ServiceCallback
+// }
 
-type Monitor struct {
-	services         []string
-	namespace        string
-	kubeClient       *kube.Clientset
-	onServiceAdded   ServiceCallback
-	onServiceRemoved ServiceCallback
-}
+// func CreateMonitor(namespace string, onServiceAdded ServiceCallback, onServiceRemoved ServiceCallback) *Monitor {
+// 	// monitorContext := context.Background()
 
-func CreateMonitor(namespace string, onServiceAdded ServiceCallback, onServiceRemoved ServiceCallback) *Monitor {
-	// monitorContext := context.Background()
+// 	config, _ := rest.InClusterConfig()
+// 	kubeClient, _ := kube.NewForConfig(config)
+// 	services, _ := findActivePods(kubeClient, namespace)
 
-	kubeClient, _ := kube.NewForConfig(kubeRest.InClusterConfig())
-	services, _ := findActivePods(kubeClient, namespace)
+// 	instance := &Monitor{
+// 		namespace:        namespace,
+// 		kubeClient:       kubeClient,
+// 		onServiceAdded:   onServiceAdded,
+// 		onServiceRemoved: onServiceRemoved,
+// 		services:         services,
+// 	}
 
-	instance := &Monitor{
-		namespace:        namespace,
-		kubeClient:       kubeClient,
-		onServiceAdded:   onServiceAdded,
-		onServiceRemoved: onServiceRemoved,
-		services:         services,
-	}
+// 	//go watchKubeNamespace(instance, namespace)
 
-	go watchKubeNamespace(instance, namespace)
+// 	return instance
+// }
 
-	return instance
-}
+// func findActivePods(client *kube.Clientset, namespace string) ([]string, error) {
+// 	pods, err := client.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
 
-func findActivePods(client *kube.Clientset, namespace string) ([]string, error) {
-	podList, err := client.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
-	podList.Items
-	return []string{}, err
-}
+// 	for i, pod := range pods.Items {
 
-func watchKubeNamespace(monitor *Monitor, namespace string) {
-}
+// 	}
+
+// 	return []string{}, err
+// }
+
+// // func watchKubeNamespace(monitor *Monitor, namespace string) {
+// // }
