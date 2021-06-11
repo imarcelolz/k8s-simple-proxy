@@ -6,7 +6,7 @@ import (
 )
 
 func TestAbs(t *testing.T) {
-	monitor := NewServiceMonitor("teste")
+	monitor := NewKubeMonitor("teste")
 	fmt.Print(monitor.Services())
 	// serverCreated := make(chan string)
 	// serverRemoved := make(chan string)
