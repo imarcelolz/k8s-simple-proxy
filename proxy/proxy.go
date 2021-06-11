@@ -55,7 +55,7 @@ func onRequest(res http.ResponseWriter, req *http.Request) {
 	proxyRequest(endpoint, res, req)
 }
 
-func main2() {
+func main() {
 	log.Println("main")
 
 	http.HandleFunc("/", onRequest)
