@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../third-party/client-go/examples"
+		}
+	],
+	"settings": {}
+}
