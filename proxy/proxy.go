@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+
+	"github.com/gobwas/ws"
+	"github.com/gobwas/ws/wsutil"
 )
 
 var servers = make(map[string]*httputil.ReverseProxy)
@@ -59,9 +62,37 @@ func main() {
 	log.Println("main")
 
 	http.HandleFunc("/", onRequest)
+	http.HandleFunc("/ws", onSocketRequest)
 	err := http.ListenAndServe(":9090", nil)
 
 	if err != nil {
 		panic(err)
 	}
+}
+
+func onSocketRequest(res http.ResponseWriter, req *http.Request) {
+	conn, _, _, err := ws.UpgradeHTTP(req, res)
+	if err != nil {
+		log.Println("conn")
+		log.Println(err)
+	}
+
+	go func() {
+		defer conn.Close()
+
+		for {
+			msg, _, err := wsutil.ReadClientData(conn)
+			if err != nil {
+				log.Println("reading error")
+				log.Panic(err)
+			}
+			log.Println(string(msg))
+
+			// err = wsutil.WriteServerMessage(conn, op, msg)
+			// if err != nil {
+			// 	log.Println("write error")
+			// 	log.Println(err)
+			// }
+		}
+	}()
 }

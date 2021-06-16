@@ -1,3 +1,14 @@
-FROM golang:1.16
+FROM golang:1.16 as builder
 
-WORKDIR /service
+WORKDIR /build
+COPY . .
+
+RUN go mod download
+RUN go mod verify
+# RUN go build -o proxy proxy.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+FROM scratch
+
+COPY --from=builder /build/main .
+ENTRYPOINT [ "/main" ]
