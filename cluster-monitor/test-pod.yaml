@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-monitor-test-pod
+  labels: {
+    name: kube-monitor-test-pod
+  }
+spec:
+  containers:
+    - name: kube-monitor-test-pod
+      image: hashicorp/http-echo
+      args: ['-listen', 'localhost:80', '-text', 'lol']
+      ports:
+        - containerPort: 80
+          name: "http-server"
